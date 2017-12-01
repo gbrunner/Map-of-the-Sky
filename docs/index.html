@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Map of the Sky</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/view.css">
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+
+  <script src="https://js.arcgis.com/4.6/"></script>
+
+  <script>
+    require([
+      'esri/Map',
+      'esri/views/MapView',
+      'esri/layers/TileLayer',
+      'esri/widgets/Home',
+      'dojo/domReady!'
+    ], function(Map, MapView, TileLayer, Home) {
+      var view = new MapView({
+        container: 'viewDiv',
+        map: new Map({
+          layers: [
+            new TileLayer({
+              url: 'https://tiles.arcgis.com/tiles/g2TonOxuRkIqSOFx/arcgis/rest/services/Galactic_Plane_Bright/MapServer'
+            })
+          ]
+        }),
+        center: [-14.5, -0.36],
+        zoom: 10,
+        constraints: {
+          minZoom: 4
+        }
+      });
+
+      view.ui.add(new Home({
+        view: view
+      }), 'top-left');
+    });
+  </script>
+</body>
+
+</html>
