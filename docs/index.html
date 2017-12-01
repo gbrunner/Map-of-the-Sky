@@ -22,19 +22,40 @@
 </head>
 
 <body>
-  <div id="viewDiv"></div>
+  <div id="viewDiv">
+
+    <div id="switchViewTo2D" class="esri-component esri-widget-button esri-widget" style="display: none;" role="button" aria-label="Switch to 2D" title="Switch to 2D">
+      <a href="https://gbrunner.github.io/Map-of-the-Sky/?is2DView=1" style="font-size: 2.0em;">
+        <span class="esri-icon esri-icon-maps"></span>
+      </a>
+    </div>
+
+    <div id="switchViewTo3D" class="esri-component esri-widget-button esri-widget" style="display: none;" role="button" aria-label="Switch to 3D" title="Switch to 3D">
+      <a href="https://gbrunner.github.io/Map-of-the-Sky/?is2DView=0" style="font-size: 1.7em;">
+        <span class="esri-icon esri-icon-globe"></span>
+      </a>
+    </div>
+
+  </div>
 
   <script src="https://js.arcgis.com/4.6/"></script>
 
   <script>
     require([
+      'esri/core/urlUtils',
       'esri/Map',
       'esri/views/MapView',
+      'esri/views/SceneView',
       'esri/layers/TileLayer',
+      'esri/widgets/Compass',
       'esri/widgets/Home',
       'dojo/domReady!'
-    ], function(Map, MapView, TileLayer, Home) {
-      var view = new MapView({
+    ], function(urlUtils, Map, MapView, SceneView, TileLayer, Compass, Home) {
+      var is2DView = (urlUtils.urlToObject(window.location.href).query && !!(Number(urlUtils.urlToObject(window.location.href).query.is2DView)));
+
+      var ViewModule = is2DView ? MapView : SceneView;
+
+      var view = new ViewModule({
         container: 'viewDiv',
         map: new Map({
           layers: [
@@ -50,9 +71,21 @@
         }
       });
 
+      if (is2DView) {
+        view.ui.add(new Compass({
+          view: view
+        }), 'top-left');
+      }
+
       view.ui.add(new Home({
         view: view
       }), 'top-left');
+
+      view.when(function() {
+        var switchViewNode = is2DView ? document.getElementById('switchViewTo3D') : document.getElementById('switchViewTo2D');
+        view.ui.add(switchViewNode, 'top-left');
+        switchViewNode.style.display = 'flex';
+      });
     });
   </script>
 </body>
