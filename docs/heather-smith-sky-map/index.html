@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Heather Smith Sky Map</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/view.css">
+</head>
+
+<body>
+  <div id="viewDiv">
+
+    <div id="switchViewTo2D" class="esri-component esri-widget-button esri-widget" style="display: none;" role="button" aria-label="Switch to 2D" title="Switch to 2D">
+      <a href="https://gbrunner.github.io/Map-of-the-Sky/heather-smith-sky-map/?is2DView=1" style="font-size: 2.0em;">
+        <span class="esri-icon esri-icon-maps"></span>
+      </a>
+    </div>
+
+    <div id="switchViewTo3D" class="esri-component esri-widget-button esri-widget" style="display: none;" role="button" aria-label="Switch to 3D" title="Switch to 3D">
+      <a href="https://gbrunner.github.io/Map-of-the-Sky/heather-smith-sky-map/?is2DView=0" style="font-size: 1.7em;">
+        <span class="esri-icon esri-icon-globe"></span>
+      </a>
+    </div>
+
+    <div id="credits" class="esri-component esri-widget" style="display: none; background: none;">
+      <a href="http://www.heathergabrielsmith.ca/maps/html/starchart.html" target="_blank" style="color: white; text-decoration: underline; font-size: 1.15em;">
+        Learn about Heather Smith's cartography here.
+      </a>
+    </div>
+
+  </div>
+
+  <script>
+    var dojoConfig = {
+      has: {
+        'esri-featurelayer-webgl': 1
+      }
+    };
+  </script>
+
+  <script src="https://js.arcgis.com/4.6/"></script>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
