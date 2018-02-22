@@ -83,7 +83,13 @@ require([
 
   var view = new ViewModule({
     container: 'viewDiv',
-    map: new Map(), // let the basemapGallery widget control the map's basemap value
+    map: new Map({
+      basemap: {
+        baseLayers: [
+          blackLayer
+        ]
+      }
+    }),
     center: [-14.5, -0.36],
     zoom: 10,
     constraints: {
@@ -110,16 +116,6 @@ require([
     view: view
   });
 
-  // the custom blackLayer isn't fully valid with the basemapGallery widget
-  // so we re-add it to the bottom of the map's basemap baseLayers
-  // each time the user makes a new selection
-  basemapGallery.watch('activeBasemap', function() {
-    view.map.basemap.baseLayers.add(blackLayer, 0);
-  });
-
-  // set the initial basemap value, which will also set it on the map
-  basemapGallery.activeBasemap = basemapsCollection[0];
-
   view.ui.add(new Expand({
     autoCollapse: true,
     content: basemapGallery,
@@ -128,8 +124,21 @@ require([
   }), {
     position: 'top-right'
   });
-
+  
   view.when(function() {
+    // the custom blackLayer isn't fully valid with the basemapGallery widget
+    // so we re-add it to the bottom of the map's basemap baseLayers
+    // each time the user makes a new selection
+    basemapGallery.watch('activeBasemap', function() {
+      view.map.basemap.baseLayers.add(blackLayer, 0);
+    });
+    
+    // set the initial basemap value, which will also set it on the map
+    basemapGallery.activeBasemap = basemapsCollection[0];
+
+    // also manually add the blackLayer once the first time around
+    // view.map.basemap.baseLayers.add(blackLayer, 0);
+
     var switchViewNode = is2DView ? document.getElementById('switchViewTo3D') : document.getElementById('switchViewTo2D');
     view.ui.add(switchViewNode, 'top-left');
     switchViewNode.style.display = 'flex';
